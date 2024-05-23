@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://2d1ov2ajdxxa"]
+
+[ext_resource type="Script" path="res://Scenes/Player2.cs" id="1_712q4"]
+[ext_resource type="Texture2D" uid="uid://cno8do7auyfm7" path="res://Assets/DALL·E 2024-05-22 18.08.24 - A set of 16-bit pixel art characters of necromancers and tiles of needles for a necrotic world. The necromancers are dressed in dark, tattered robes w.webp" id="3_8e1nm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d57lj"]
+radius = 39.0
+height = 226.0
+
+[node name="Necromancer2" type="CharacterBody2D"]
+scale = Vector2(-1, 1)
+script = ExtResource("1_712q4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_8e1nm")
+region_enabled = true
+region_rect = Rect2(320, 546, 112, 224)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, -4)
+shape = SubResource("CapsuleShape2D_d57lj")
+
+[node name="spawnPoint" type="Node2D" parent="."]
+position = Vector2(0, -153)

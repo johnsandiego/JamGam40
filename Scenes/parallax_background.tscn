@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdym76hh4jvn6"]
+
+[ext_resource type="Texture2D" uid="uid://cbbf2opr26in6" path="res://Assets/paralax/generaltso_2d_pixel_art_mountains_for_paralax_8e0a57b6-ebea-45f5-bbd9-eeec47d22c89.png" id="1_2fo8m"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.44, 0.44)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+texture = ExtResource("1_2fo8m")
