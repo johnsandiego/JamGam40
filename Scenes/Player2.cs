@@ -55,10 +55,10 @@ public partial class Player2 : CharacterBody2D
     private void LaunchBullet()
     {
         Needle needleInstance = (Needle)NeedleScene.Instantiate();
-        SpawnPoint.AddChild(needleInstance);
+        AddChild(needleInstance);
 
         // Set the bullet's position to the player's position or the firing point.
-        needleInstance.Position = GlobalPosition;
+        needleInstance.Position = GlobalPosition + new Vector2(-100, 0);
 
         // Set the bullet's direction based on the player's current rotation.
         needleInstance.Direction = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)).Normalized();

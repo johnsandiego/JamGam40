@@ -8,9 +8,10 @@
 radius = 39.0
 height = 226.0
 
-[node name="Necromancer" type="CharacterBody2D"]
+[node name="Necromancer" type="CharacterBody2D" node_paths=PackedStringArray("SpawnPoint")]
 script = ExtResource("1_h0prb")
 NeedleScene = ExtResource("2_xchgd")
+SpawnPoint = NodePath("spawnPoint")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_4slpn")
@@ -22,4 +23,4 @@ position = Vector2(-3, -4)
 shape = SubResource("CapsuleShape2D_d57lj")
 
 [node name="spawnPoint" type="Node2D" parent="."]
-position = Vector2(2, -184)
+position = Vector2(77, -3)
