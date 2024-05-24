@@ -1,0 +1,86 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6raqg1pw2l0t"]
+
+[ext_resource type="Theme" uid="uid://c6o480eel50qi" path="res://help.tres" id="1_mlkpm"]
+[ext_resource type="Theme" uid="uid://dobnm1fmyf42r" path="res://player1.tres" id="2_p2txn"]
+[ext_resource type="Theme" uid="uid://lagnpiexpdiv" path="res://player2.tres" id="3_vqmeg"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -245.0
+offset_right = 152.0
+offset_bottom = 12.0
+grow_vertical = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_mlkpm")
+text = "Press H for controls"
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -438.0
+offset_top = -258.0
+offset_right = 441.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player 1 Controls
+w - jump
+a or s - move left or right
+f - fire weapon
+
+Player 2 Controls
+arrow up - jump
+arrow left or right - move left or right
+shift - fire weapon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 1151.0
+offset_bottom = 40.0
+
+[node name="Player1" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme = ExtResource("2_p2txn")
+text = "Player 1     "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player1DamageMultiplier" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "0%"
+vertical_alignment = 1
+
+[node name="Player2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme = ExtResource("3_vqmeg")
+text = "Player 2     "
+vertical_alignment = 1
+
+[node name="Player2DamageMultiplier" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "0%"
+vertical_alignment = 1

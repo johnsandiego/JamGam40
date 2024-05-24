@@ -67,6 +67,15 @@ player2_jump={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="player1"
+2d_physics/layer_2="player2"
+2d_physics/layer_3="needle"
+2d_physics/layer_4="tile"
+2d_physics/layer_5="player1hitbox"
+2d_physics/layer_6="player2hitbox"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
