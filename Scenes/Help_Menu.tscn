@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6raqg1pw2l0t"]
+[gd_scene load_steps=6 format=3 uid="uid://b6raqg1pw2l0t"]
 
 [ext_resource type="Theme" uid="uid://c6o480eel50qi" path="res://help.tres" id="1_mlkpm"]
+[ext_resource type="Script" path="res://Scenes/Help_Menu.cs" id="1_q3hwm"]
+[ext_resource type="Theme" uid="uid://3rssxrr0yj1d" path="res://help2.tres" id="2_7itan"]
 [ext_resource type="Theme" uid="uid://dobnm1fmyf42r" path="res://player1.tres" id="2_p2txn"]
 [ext_resource type="Theme" uid="uid://lagnpiexpdiv" path="res://player2.tres" id="3_vqmeg"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("optionMenu")]
+script = ExtResource("1_q3hwm")
+optionMenu = NodePath("Options")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 4
@@ -84,3 +88,59 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "0%"
 vertical_alignment = 1
+
+[node name="Options" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -282.0
+offset_top = -190.0
+offset_right = 273.0
+offset_bottom = 169.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7itan")
+
+[node name="Button" type="Button" parent="Options"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -85.5
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7itan")
+text = "Return"
+
+[node name="Button2" type="Button" parent="Options"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -3.5
+offset_bottom = 70.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+
+[node name="Label" type="Label" parent="Options"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -156.5
+offset_right = 156.5
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("2_7itan")
+text = "Option"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Options/Button" to="." method="OnReturn"]
+[connection signal="pressed" from="Options/Button2" to="." method="OnQuit"]

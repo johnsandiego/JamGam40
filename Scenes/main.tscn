@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmamolq71l88c"]
+[gd_scene load_steps=18 format=3 uid="uid://bmamolq71l88c"]
 
 [ext_resource type="Script" path="res://Scripts/Manager.cs" id="1_84i4f"]
 [ext_resource type="Texture2D" uid="uid://cem4rcp8p3pc8" path="res://Assets/Platformer Asset Pack.png" id="1_ch6f0"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://2d1ov2ajdxxa" path="res://Scenes/player2.tscn" id="6_3fkmo"]
 [ext_resource type="PackedScene" uid="uid://hmdomvro386o" path="res://Scenes/player.tscn" id="6_usu4t"]
 [ext_resource type="PackedScene" uid="uid://bdym76hh4jvn6" path="res://Scenes/parallax_background.tscn" id="7_b6unr"]
+[ext_resource type="Script" path="res://Scenes/DynamicCamera.cs" id="8_2xd3e"]
 [ext_resource type="PackedScene" uid="uid://b6raqg1pw2l0t" path="res://Scenes/Help_Menu.tscn" id="8_5x87j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_130e7"]
@@ -523,9 +524,10 @@ size = Vector2(22, 642)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kp5qt"]
 size = Vector2(1234, 17)
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("helpMenu")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("helpMenu", "optionMenu")]
 script = ExtResource("1_84i4f")
 helpMenu = NodePath("CanvasLayer/Panel")
+optionMenu = NodePath("CanvasLayer/Options")
 
 [node name="TileMap" type="TileMap" parent="."]
 modulate = Color(1, 0, 1, 1)
@@ -578,6 +580,11 @@ scale = Vector2(-0.1, 0.1)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(44.4, -54)
 zoom = Vector2(1.5, 1.5)
+script = ExtResource("8_2xd3e")
+Player1Path = NodePath("../Necromancer2")
+Player2Path = NodePath("../Necromancer")
+ZoomSpeed = 5.0
+MaxZoom = 4.0
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("7_b6unr")]
 scale = Vector2(1.1, 1.1)
@@ -585,6 +592,7 @@ transform = Transform2D(1.1, 0, 0, 1.1, 0, 0)
 
 [node name="OutOfBounceArea" type="Area2D" parent="."]
 position = Vector2(-498, 0)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounceArea"]
 position = Vector2(-16.5, -64.5)
@@ -592,6 +600,7 @@ shape = SubResource("RectangleShape2D_gd5r8")
 
 [node name="OutOfBounceArea2" type="Area2D" parent="."]
 position = Vector2(497, 0)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounceArea2"]
 position = Vector2(9, -99)
@@ -599,6 +608,7 @@ shape = SubResource("RectangleShape2D_pj2yk")
 
 [node name="OutOfBounceArea3" type="Area2D" parent="."]
 position = Vector2(0, 310)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounceArea3"]
 position = Vector2(32, -79.5)
@@ -608,5 +618,12 @@ shape = SubResource("RectangleShape2D_kp5qt")
 
 [node name="Panel" parent="CanvasLayer" index="1"]
 visible = false
+
+[node name="Options" parent="CanvasLayer" index="3"]
+visible = false
+
+[connection signal="body_entered" from="OutOfBounceArea" to="." method="_on_out_of_bounce_area_body_entered"]
+[connection signal="body_entered" from="OutOfBounceArea2" to="." method="_on_out_of_bounce_area_2_body_entered"]
+[connection signal="body_entered" from="OutOfBounceArea3" to="." method="_on_out_of_bounce_area_3_body_entered"]
 
 [editable path="CanvasLayer"]

@@ -8,6 +8,8 @@ public partial class Manager : Node
 
 	public Player player;
 	public Player2 player2;
+    [Export]
+    public Panel optionMenu;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -16,11 +18,7 @@ public partial class Manager : Node
 
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		
-	}
+
 
     public override void _Input(InputEvent @event)
     {
@@ -29,5 +27,48 @@ public partial class Manager : Node
             helpMenu.Visible = !helpMenu.Visible;
 
         }
+
+        if(Input.IsKeyPressed(Key.Escape))
+        {
+            optionMenu.Visible = !optionMenu.Visible;
+        }
+    }
+
+	private void _on_out_of_bounce_area_body_entered(Node2D body)
+	{
+		if (body != null)
+		{
+			ReloadScene();
+        }
+	}
+
+	private void _on_out_of_bounce_area_2_body_entered(Node2D body)
+	{
+		if(body != null)
+		{
+			ReloadScene();
+
+        }
+	}
+    private void _on_out_of_bounce_area_3_body_entered(Node2D body)
+    {
+        if (body != null)
+        {
+            ReloadScene();
+
+        }
+    }
+    
+
+    private void ReloadScene()
+	{
+        // Get the current scene
+        PackedScene currentScene = (PackedScene)ResourceLoader.Load(GetTree().CurrentScene.SceneFilePath);
+
+        // Remove the current scene
+        GetTree().CurrentScene.Free();
+
+        // Load the current scene again
+        GetTree().ChangeSceneToPacked(currentScene);
     }
 }

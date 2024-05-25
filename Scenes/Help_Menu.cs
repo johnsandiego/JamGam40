@@ -3,14 +3,15 @@ using System;
 
 public partial class Help_Menu : CanvasLayer
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	[Export]
+	public Panel optionMenu;
+	public void OnReturn()
 	{
-		Visible = true;
+        optionMenu.Visible = false;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public void OnQuit()
 	{
-	}
+        GetTree().Quit();
+    }
 }
