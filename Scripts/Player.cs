@@ -3,73 +3,33 @@ using System;
 
 public partial class Player : BasePlayer
 {
+    public AnimationPlayer hitFlash;
+    public AudioStreamPlayer2D audio;
+
     public override void _Ready()
     {
         base.playerIndex = 1;
+        hitFlash = GetNode<AnimationPlayer>("AnimationPlayer");
+        audio = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
         base._Ready();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-	}
-    //private void UpdateSpawnPointPosition(bool isMovingLeft)
-    //{
-    //    // Update the spawn point position to be on the opposite side of the player
-    //    if (isMovingLeft)
-    //    {
-    //        SpawnPoint.Position = new Vector2(-Math.Abs(SpawnPoint.Position.X), SpawnPoint.Position.X);
-    //    }
-    //    else
-    //    {
-    //        SpawnPoint.Position = new Vector2(Math.Abs(SpawnPoint.Position.X), SpawnPoint.Position.X);
-    //    }
-    //}
+        //hitFlash.Play("idle");
 
-    //public void OnBodyEntered(Node2D body)
-    //{
-        
-    //}
+    }
 
-    //private void Teleport(Vector2 direction)
-    //{
-
-    //    // Normalize the direction to prevent faster diagonal movement
-    //    direction = direction.Normalized();
-
-    //    // Calculate the new position
-    //    Vector2 newPosition = Position + direction * TeleportDistance;
-
-    //    // Optional: Check for collision or valid teleport location here
-
-    //    // Set the new position
-    //    Position = newPosition;
-    //}
-
-    //private void LaunchBullet()
-    //{
-    //    Needle needleInstance = (Needle)NeedleScene.Instantiate();
-    //    needleInstance.AddToGroup("player1");
-    //    SpawnPoint.AddChild(needleInstance);
-
-    //    // Set the bullet's position to the player's position or the firing point.
-    //    needleInstance.Position = GlobalPosition + new Vector2(500, 0);
-
-    //    // Set the bullet's direction based on the player's current rotation.
-    //    needleInstance.Direction = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)).Normalized();
-    //}
-
-    public override void OnBodyEntered(Node2D body)
+    public void OnBodyEntered(Node2D body)
     {
         if (body != null && body.IsInGroup("player2"))
         {
+            audio.Play(0);
             hitFlash.Play("juice");
-            playerMultiplier += 5;
+            playerMultiplier += new Random().Next(5,26);
+            GD.Print("player2 hit");
+            Velocity += new Vector2(playerMultiplier, -playerMultiplier * (float).2);
         }
-    }
-
-    public override void OnBodyEntered2(Node2D body)
-    {
-        throw new NotImplementedException();
     }
 }

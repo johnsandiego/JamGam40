@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://hmdomvro386o"]
+[gd_scene load_steps=13 format=3 uid="uid://hmdomvro386o"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_0myxy"]
 [ext_resource type="Texture2D" uid="uid://cno8do7auyfm7" path="res://Assets/DALL·E 2024-05-22 18.08.24 - A set of 16-bit pixel art characters of necromancers and tiles of needles for a necrotic world. The necromancers are dressed in dark, tattered robes w.webp" id="1_4slpn"]
 [ext_resource type="Shader" path="res://Scenes/player1.gdshader" id="1_ycab2"]
 [ext_resource type="PackedScene" uid="uid://bo1g0g7ygr14m" path="res://Scenes/needle.tscn" id="2_xchgd"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_upi71"]
+[ext_resource type="AudioStream" uid="uid://c2i17wt2x17iq" path="res://Sounds/hitHurt.wav" id="5_ipbk6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d8dno"]
 shader = ExtResource("1_ycab2")
@@ -30,6 +29,35 @@ tracks/0/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j346v"]
+resource_name = "idle"
+length = 2.0
+step = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 1, 1, 1), Color(0, 0.794772, 0.794772, 1), Color(0, 0.566101, 0.566101, 1), Color(0, 0.566101, 0.566101, 1), Color(0, 0.796078, 0.796078, 1), Color(0, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_sen3g"]
 resource_name = "juice"
@@ -51,6 +79,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b6r3o"]
 _data = {
 "RESET": SubResource("Animation_efa34"),
+"idle": SubResource("Animation_j346v"),
 "juice": SubResource("Animation_sen3g")
 }
 
@@ -59,7 +88,6 @@ radius = 36.0
 height = 216.0
 
 [node name="Necromancer" type="CharacterBody2D" node_paths=PackedStringArray("SpawnPoint")]
-material = SubResource("ShaderMaterial_upi71")
 collision_mask = 14
 script = ExtResource("1_0myxy")
 NeedleScene = ExtResource("2_xchgd")
@@ -90,5 +118,8 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_x6pgd")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ipbk6")
 
 [connection signal="body_entered" from="Hitbox" to="." method="OnBodyEntered"]

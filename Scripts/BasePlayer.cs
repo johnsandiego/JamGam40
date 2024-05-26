@@ -17,7 +17,6 @@ public abstract partial class BasePlayer : CharacterBody2D
     [Export]
     public Node2D SpawnPoint;
 
-    public AnimationPlayer hitFlash;
     private Sprite2D _sprite;
     private Node2D _spawnPoint;
     public int playerIndex = 0;
@@ -25,7 +24,6 @@ public abstract partial class BasePlayer : CharacterBody2D
     {
         _sprite = GetNode<Sprite2D>("Sprite2D");
         SpawnPoint = GetNode<Node2D>("spawnPoint");
-        hitFlash = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -50,7 +48,6 @@ public abstract partial class BasePlayer : CharacterBody2D
                     {
                         velocity2.Y = JumpVelocity;
                         tripleJump++;
-                        GD.Print(tripleJump);
                     }
                 }
 
@@ -71,7 +68,7 @@ public abstract partial class BasePlayer : CharacterBody2D
 
                 if (Input.IsActionJustPressed("player2_fire"))
                 {
-                    LaunchBullet(direction);
+                    LaunchBullet("player1", direction);
                 }
 
                 if (velocity2.X != 0)
@@ -106,13 +103,8 @@ public abstract partial class BasePlayer : CharacterBody2D
                     {
                         velocity.Y = JumpVelocity;
                         tripleJump++;
-                        GD.Print(tripleJump);
-
                     }
-
-
                 }
-
 
                 Vector2 direction2 = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
                 if (direction2 != Vector2.Zero)
@@ -127,7 +119,19 @@ public abstract partial class BasePlayer : CharacterBody2D
                 //fires a needle
                 if (Input.IsActionJustPressed("fire"))
                 {
-                    LaunchBullet(direction2);
+                    LaunchBullet("player2", Position);
+                }
+
+                if (Input.IsActionJustPressed("player2teleport"))
+                {
+                    Teleport(direction2);
+                }
+
+                if (velocity.X != 0)
+                {
+                    bool isMovingLeft = velocity.X < 0;
+                    _sprite.FlipH = !isMovingLeft;
+                    UpdateSpawnPointPosition(isMovingLeft);
                 }
 
                 Velocity = velocity;
@@ -155,18 +159,30 @@ public abstract partial class BasePlayer : CharacterBody2D
         Position = newPosition;
     }
 
-    private void LaunchBullet(Vector2 direction)
+    private void LaunchBullet(string groupName, Vector2 playerLastKnownPosition)
     {
         Needle needleInstance = (Needle)NeedleScene.Instantiate();
-        needleInstance.AddToGroup("player1");
+
+        var position = GlobalPosition + new Vector2(100, 0);
+        var direction = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(-Rotation)).Normalized();
+
+        if (_sprite.FlipH)
+        {
+            needleInstance.Direction = -direction;
+            needleInstance.Position = -position;
+        }
+        else
+        {
+            needleInstance.Direction = direction;
+            needleInstance.Position = position;
+
+        }
+
+        needleInstance.AddToGroup(groupName);
         SpawnPoint.AddChild(needleInstance);
-        needleInstance.Position = GlobalPosition + new Vector2(500, 0);
-        needleInstance.Direction = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)).Normalized();
 
-        GD.Print(Rotation);
+        GD.Print("fliph: ", _sprite.FlipH);
+        GD.Print("player Position: ", Position);
+        GD.Print("player global position: ", GlobalPosition);
     }
-
-    public abstract void OnBodyEntered(Node2D body);
-
-    public abstract void OnBodyEntered2(Node2D body);
 }
