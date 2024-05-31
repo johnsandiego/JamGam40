@@ -8,7 +8,7 @@ public partial class Player : BasePlayer
 
     public override void _Ready()
     {
-        base.playerIndex = 1;
+        playerIndex = 1;
         hitFlash = GetNode<AnimationPlayer>("AnimationPlayer");
         audio = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
         base._Ready();
@@ -28,8 +28,17 @@ public partial class Player : BasePlayer
             audio.Play(0);
             hitFlash.Play("juice");
             playerMultiplier += new Random().Next(5,26);
-            GD.Print("player2 hit");
-            Velocity += new Vector2(playerMultiplier, -playerMultiplier * (float).2);
+            // Calculate the knockback direction based on the impact point
+            Vector2 knockbackDirection = (GlobalPosition - body.GlobalPosition).Normalized();
+            knockbackDirection.Y -= .5f;
+            knockbackDirection.X += 1f;
+            // Apply the knockback force with the multiplier
+            Velocity += knockbackDirection * playerMultiplier * 10;
+
+            // Ensure the player moves with the updated velocity
+            MoveAndSlide();
+
+            body.QueueFree();
         }
     }
 }

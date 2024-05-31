@@ -26,7 +26,7 @@ public partial class Needle : RigidBody2D
     }
     private void onTimeFinished()
     {
-        //QueueFree();
+        QueueFree();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

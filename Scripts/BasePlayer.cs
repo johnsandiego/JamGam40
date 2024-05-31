@@ -20,6 +20,8 @@ public abstract partial class BasePlayer : CharacterBody2D
     private Sprite2D _sprite;
     private Node2D _spawnPoint;
     public int playerIndex = 0;
+    [Export]
+    public Node2D parent;
     public override void _Ready()
     {
         _sprite = GetNode<Sprite2D>("Sprite2D");
@@ -68,7 +70,7 @@ public abstract partial class BasePlayer : CharacterBody2D
 
                 if (Input.IsActionJustPressed("player2_fire"))
                 {
-                    LaunchBullet("player1", direction);
+                    LaunchBullet("player1", false);
                 }
 
                 if (velocity2.X != 0)
@@ -119,7 +121,7 @@ public abstract partial class BasePlayer : CharacterBody2D
                 //fires a needle
                 if (Input.IsActionJustPressed("fire"))
                 {
-                    LaunchBullet("player2", Position);
+                    LaunchBullet("player2", true);
                 }
 
                 if (Input.IsActionJustPressed("player2teleport"))
@@ -131,7 +133,7 @@ public abstract partial class BasePlayer : CharacterBody2D
                 {
                     bool isMovingLeft = velocity.X < 0;
                     _sprite.FlipH = !isMovingLeft;
-                    UpdateSpawnPointPosition(isMovingLeft);
+                    UpdateSpawnPointPosition(!isMovingLeft);
                 }
 
                 Velocity = velocity;
@@ -159,7 +161,7 @@ public abstract partial class BasePlayer : CharacterBody2D
         Position = newPosition;
     }
 
-    private void LaunchBullet(string groupName, Vector2 playerLastKnownPosition)
+    private void LaunchBullet(string groupName, bool rotateNeedle180)
     {
         Needle needleInstance = (Needle)NeedleScene.Instantiate();
 
@@ -169,20 +171,22 @@ public abstract partial class BasePlayer : CharacterBody2D
         if (_sprite.FlipH)
         {
             needleInstance.Direction = -direction;
-            needleInstance.Position = -position;
+            //needleInstance.Position = -position;
+ 
         }
         else
         {
             needleInstance.Direction = direction;
-            needleInstance.Position = position;
-
+            //needleInstance.Position = position;
+            if (rotateNeedle180)
+            {
+                needleInstance.Rotate(Mathf.DegToRad(180));
+            }
         }
 
-        needleInstance.AddToGroup(groupName);
-        SpawnPoint.AddChild(needleInstance);
 
-        GD.Print("fliph: ", _sprite.FlipH);
-        GD.Print("player Position: ", Position);
-        GD.Print("player global position: ", GlobalPosition);
+        needleInstance.GlobalPosition = SpawnPoint.GlobalPosition;
+        needleInstance.AddToGroup(groupName);
+        GetParent().AddChild(needleInstance);
     }
 }

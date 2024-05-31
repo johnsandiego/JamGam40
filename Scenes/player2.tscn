@@ -84,13 +84,14 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pqld8"]
-radius = 42.0
+radius = 52.0
 height = 208.0
 
 [node name="Necromancer2" type="CharacterBody2D" node_paths=PackedStringArray("SpawnPoint")]
 scale = Vector2(-1, 1)
 collision_layer = 2
 collision_mask = 13
+floor_stop_on_slope = false
 script = ExtResource("2_67tsb")
 NeedleScene = ExtResource("2_ugyew")
 SpawnPoint = NodePath("spawnPoint")
